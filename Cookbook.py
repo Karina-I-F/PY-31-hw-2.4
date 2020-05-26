@@ -55,6 +55,8 @@ def get_shop_list_by_dishes(cookbook, dishes, persons):
         pprint(shop_list)
     except KeyError:
         print('Вы ошиблись в названии блюда, проверьте ввод.')
+    except TypeError:
+        print('В "количество персон" нужно ввести целое число.')
 
 
 def request(file_name):
@@ -79,12 +81,17 @@ def request(file_name):
     for dish in raw_list:
         processed_list.append(dish.strip().capitalize())
 
-    person_count = 1
-    persons = input('Введите количество персон: ')
-    try:
-        person_count = int(persons)
-    except ValueError:
-        print('В "количество персон" нужно записать число.')
+    person_count = None
+    for i in range(3):
+        persons = input('Введите количество персон, при наборе "0", выведет для 1: ')
+        try:
+            person_count = int(persons)
+            if person_count == 0:
+                person_count = 1
+            break
+        except ValueError:
+            print('В "количество персон" нужно записать целое число.')
+            i += 1
 
     get_shop_list_by_dishes(cookbook, processed_list, person_count)
 
