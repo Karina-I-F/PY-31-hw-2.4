@@ -1,7 +1,7 @@
 from pprint import pprint
 
 
-def get_cook_book(file_name):
+def get_cookbook(file_name):
     """
     Принимает и читает список рецептов из файла в формате:
     Название блюда
@@ -18,34 +18,34 @@ def get_cook_book(file_name):
                     ...],
     ...}
     """
-    cook_book = {}
+    cookbook = {}
     with open(file_name, encoding='utf8') as file:
         for line in file:
             dish = line.strip()
             if dish:
-                cook_book[dish] = []
+                cookbook[dish] = []
                 count = int(file.readline())
                 for i in range(count):
                     items = file.readline().strip().split(' | ')
                     temp_dict = {'ingredient name': items[0],
                                  'quantity': items[1],
                                  'measure': items[2]}
-                    cook_book[dish].append(temp_dict)
+                    cookbook[dish].append(temp_dict)
             else:
-                return cook_book
+                return cookbook
             file.readline()
-    return cook_book
+    return cookbook
 
 
-def get_shop_list_by_dishes(cook_book, dishes, persons):
+def get_shop_list_by_dishes(cookbook, dishes, persons):
     """
-    Принимает cook_book, список блюд  и количество персон
+    Принимает cookbook, список блюд  и количество персон
     Выводит словарь с названиями ингредиентов и их необходимым количеством
     """
     shop_list = {}
     try:
         for dish in dishes:
-            for ingredient in cook_book[dish]:
+            for ingredient in cookbook[dish]:
                 if ingredient['ingredient name'] not in shop_list:
                     shop_list[ingredient['ingredient name']] = {'quantity': int(ingredient['quantity']) * persons,
                                                                 'measure': ingredient['measure']}
@@ -69,9 +69,9 @@ def request(file_name):
      Запрашивает названия блюд и количество персон, для подсчёта ингридиентов
      Выводит словарь необходимых ингридиентов и их количество
      """
-    cook_book = get_cook_book(file_name)
+    cookbook = get_cookbook(file_name)
     print('Список блюд, для которых имеются рецепты:')
-    for dish_name in cook_book.keys():
+    for dish_name in cookbook.keys():
         print(dish_name)
 
     raw_list = input('Введите названия блюд через запятую: ').split(',')
@@ -86,7 +86,7 @@ def request(file_name):
     except ValueError:
         print('В "количество персон" нужно записать число.')
 
-    get_shop_list_by_dishes(cook_book, processed_list, person_count)
+    get_shop_list_by_dishes(cookbook, processed_list, person_count)
 
 
 request('recipes.txt')
