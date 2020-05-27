@@ -59,7 +59,7 @@ def get_shop_list_by_dishes(cookbook, dishes, persons):
         print('В "количество персон" нужно ввести целое число.')
 
 
-def request(file_name):
+def ask_for_data(file_name):
     """
      Принимает файл в формате:
      Название блюда
@@ -96,4 +96,4 @@ def request(file_name):
     get_shop_list_by_dishes(cookbook, processed_list, person_count)
 
 
-request('recipes.txt')
+ask_for_data('recipes.txt')
